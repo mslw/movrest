@@ -1,0 +1,4 @@
+[DEFAULT]
+SOURCE_DIR=/Volumes/My Book Pro/movrest_sourcedata
+PREP_DIR=/Volumes/My Book Pro/movrest_fmriprep
+WORK_DIR=/Volumes/My Book Pro/movrest_work
