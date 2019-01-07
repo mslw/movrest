@@ -13,8 +13,8 @@ conditions_pattern = 'sub-%s_task-movierest_run-%02d_events.mat';
 regressors_pattern = 'sub-%s_task-movierest_run-%02d_regressors.mat';
 
 nrun = length(subjects);
-% jobfile = {'/Users/michal/Documents/movrest_2018/spm_batch/first_level_job.m'};
-jobfile = {'first_level_job.m'};  % can I use relative paths here?
+
+jobfile = {'first_level_job.m'};
 jobs = repmat(jobfile, 1, nrun);
 inputs = cell(7, nrun);
 for crun = 1:nrun
@@ -48,11 +48,11 @@ for crun = 1:nrun
     
     % fMRI model specification: Multiple conditions - cfg_files
     inputs{6, crun} = cellstr(fullfile(...
-        WORK_DIR, 'spm_inputs', sprintf(conditions_pattern, subject, 1)));
+        WORK_DIR, 'spm_inputs', sprintf(conditions_pattern, subject, 2)));
     
     % fMRI model specification: Multiple regressors - cfg_files
     inputs{7, crun} = cellstr(fullfile(...
-        WORK_DIR, 'spm_inputs', sprintf(regressors_pattern, subject, 1)));
+        WORK_DIR, 'spm_inputs', sprintf(regressors_pattern, subject, 2)));
 end
 
 spm('defaults', 'FMRI');

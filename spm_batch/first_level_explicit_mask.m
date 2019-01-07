@@ -49,11 +49,11 @@ for crun = 1:nrun
     
     % fMRI model specification: Multiple conditions - cfg_files
     inputs{6, crun} = cellstr(fullfile(...
-        WORK_DIR, 'spm_inputs', sprintf(conditions_pattern, subject, 1)));
+        WORK_DIR, 'spm_inputs', sprintf(conditions_pattern, subject, 2)));
     
     % fMRI model specification: Multiple regressors - cfg_files
     inputs{7, crun} = cellstr(fullfile(...
-        WORK_DIR, 'spm_inputs', sprintf(regressors_pattern, subject, 1)));
+        WORK_DIR, 'spm_inputs', sprintf(regressors_pattern, subject, 2)));
     
     % fMRI model specification: Explicit mask - cfg_files
     inputs{8, crun} = cellstr(fullfile(...
