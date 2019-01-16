@@ -1,8 +1,17 @@
 % create stick contrasts on first level for each subject
 % delete previously existing contrasts
+% set OVERRIDE_SUBDIR to traverse folder other than WORK_DIR/models
 
 config = ini2struct('../movrest_config.ini');
 WORK_DIR = config.default.work_dir;
+work_subdir = 'models';
+
+% ugly way to change subdir to avoid creating another script or using 
+% a function if only folder changes
+if exist('OVERRIDE_SUBDIR', 'var')
+    work_subdir = OVERRIDE_SUBDIR;
+    disp(['Using folder ' fullfile(WORK_DIR, work_subdir)]);
+end
 
 subjects = {
     '03'; '04'; '05'; '06'; '07'; '08'; '09'; '10'; '11'; '12'; '14';...
@@ -33,7 +42,7 @@ inputs = cell(41, nrun);
 for crun = 1:nrun
     % Contrast Manager: Select SPM.mat - cfg_files
     inputs{1, crun} = cellstr(fullfile(...
-        WORK_DIR, 'models', sprintf('sub-%s', subjects{crun}), 'SPM.mat'));
+        WORK_DIR, work_subdir, sprintf('sub-%s', subjects{crun}), 'SPM.mat'));
     
     in = 1; % input number - there are 3 open inputs per contrast
     for cn = 1:n_contrasts
