@@ -5,7 +5,7 @@ dir_1st_lvl = 'models_xm';
 dir_2nd_lvl = 'flex_factorial_xm1_xm2';
 % previously took data from 'models' & wrote to 'flex_factorial'
 
-subjects = {'03'; '04'; '05'; '06'; '07'; '08'; '09'; '10'; '11'; '12'; '14'; '16'; '17'; '18'; '19'; '20'; '21'; '22'; '23'; '25'; '26'; '27'};
+subjects = {'03'; '04'; '05'; '06'; '07'; '08'; '09'; '11'; '12'; '14'; '16'; '17'; '18'; '19'; '20'; '21'; '22'; '23'; '25'; '26'};
 
 mask_used = cellstr('../tpm_grey_20.nii,1');
 
