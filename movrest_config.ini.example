@@ -3,3 +3,4 @@ SOURCE_DIR=/Volumes/My Book Pro/movrest_sourcedata
 PREP_DIR=/Volumes/My Book Pro/movrest_fmriprep
 WORK_DIR=/Volumes/My Book Pro/movrest_work
 RESPONSES_DIR=/Volumes/My Book Pro/movrest_answers
+SPM_DIR=/Users/michal/toolboxes/spm12/

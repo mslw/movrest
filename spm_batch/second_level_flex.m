@@ -7,7 +7,7 @@ dir_2nd_lvl = 'flex_factorial_xm1_xm2';
 
 subjects = {'03'; '04'; '05'; '06'; '07'; '08'; '09'; '11'; '12'; '14'; '16'; '17'; '18'; '19'; '20'; '21'; '22'; '23'; '25'; '26'};
 
-mask_used = cellstr('../tpm_grey_20.nii,1');
+mask_used = cellstr('../tpm_grey_30.nii,1');
 
 % size of needed matrices
 n_conditions = 20;
