@@ -5,7 +5,6 @@ import numpy as np
 import os
 import pandas
 
-from nilearn import datasets
 from nilearn.input_data import NiftiLabelsMasker
 from nilearn.connectome import ConnectivityMeasure
 
@@ -22,13 +21,10 @@ def get_rest_regressors(filename):
         'a_comp_cor_03', 'a_comp_cor_04', 'a_comp_cor_05',
         'framewise_displacement',
         ]
-    # TODO: add constant & linear trend
+
     t = pandas.read_table(filename)
     regressors = t.loc[:, wanted]
     regressors.fillna(value=0, inplace=True)
-
-    regressors['constant'] = np.ones(regressors.shape[0])
-    regressors['linear_trend'] = np.arange(regressors.shape[0], dtype=np.float)
 
     return regressors.values
 
@@ -61,11 +57,6 @@ config.read('movrest_config.ini')
 PREP_DIR = config['DEFAULT']['PREP_DIR']
 SOURCE_DIR = config['DEFAULT']['SOURCE_DIR']
 WORK_DIR = config['DEFAULT']['WORK_DIR']
-
-# # Fetch the Harvard - Oxford atlas
-# dataset = datasets.fetch_atlas_harvard_oxford('cort-maxprob-thr25-2mm')
-# atlas_filename = dataset.maps
-# labels = dataset.labels
 
 # Fetch prepared ROIs
 atlas_filename = os.path.join(WORK_DIR, 'selected_HO_rois.nii')
@@ -112,8 +103,11 @@ for run_number in (1, 2):
     # Extract signals on a parcellation
     # this is time (~5 minutes) and memory (OMG) consuming
     rest_regressors = get_rest_regressors(confounds_filename)
-    masker = NiftiLabelsMasker(labels_img=atlas_filename, standardize=True,
-                               verbose=5)  # filter?
+    masker = NiftiLabelsMasker(labels_img=atlas_filename,
+                               standardize=True,
+                               detrend=True,
+                               verbose=5,
+                               )
     time_series = masker.fit_transform(fmri_filename,
                                        confounds=rest_regressors)
 
