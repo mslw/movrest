@@ -1,7 +1,11 @@
 import configparser
 import glob
+import matplotlib.pyplot as plt
 import numpy as np
 import os
+import re
+
+from nilearn import plotting
 
 # get path to work dir
 config = configparser.ConfigParser()
@@ -15,7 +19,11 @@ N_BOOT = 10000
 # load all connectivity matrices, calculate difference relative to post-neu
 all_diffs = []
 for f in glob.glob(os.path.join(WORK_DIR, WORK_SUBDIR, '*.npy')):
-    # todo filter subjects
+    subject_id = re.match('sub-([0-9]+)', os.path.basename(f)).group(1)
+    if subject_id in ['10', '27']:
+        # these subjects had outlying questionnaire scores
+        continue
+
     cm = np.load(f)  # category x ROI x ROI
     d = np.delete(cm, 3, 0) - cm[3, :, :]
 
@@ -44,3 +52,16 @@ for cat_idx in range(4):
 
         max_r_dist[i] = np.amax(perm_mean, axis=1)
         min_r_dist[i] = np.amin(perm_mean, axis=1)
+
+    print(cat_idx,
+          np.percentile(min_r_dist, 2.5),
+          np.percentile(max_r_dist, 97.5),
+          )
+
+# plot mean correlation matrices
+for i in range(the_mean.shape[0]):
+    plotting.plot_matrix(the_mean[i])
+
+# also show an example of a single-subject matrix
+plotting.plot_matrix(all_diffs[-1][0])
+plt.show()
