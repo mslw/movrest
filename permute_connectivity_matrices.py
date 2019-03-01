@@ -13,7 +13,7 @@ config.read('movrest_config.ini')
 WORK_DIR = config['DEFAULT']['WORK_DIR']
 
 # hardcoded constants
-WORK_SUBDIR = 'nilearn_connectivity'
+WORK_SUBDIR = 'nilearn_connectivity_spheres_filter'
 N_BOOT = 10000
 
 # load all connectivity matrices, calculate difference relative to post-neu

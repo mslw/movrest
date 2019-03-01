@@ -43,7 +43,7 @@ def get_epochs(time_series, t_type, events_table, n_vol, t_r):
 # some constants
 N_VOL_REST = 80  # how many resting volumes per epoch
 REPETITION_TIME = 1.1
-WORK_SUBDIR = 'nilearn_connectivity_spheres'
+WORK_SUBDIR = 'nilearn_connectivity_spheres_filter'
 
 # get input arguments
 parser = argparse.ArgumentParser()
@@ -120,6 +120,9 @@ for run_number in (1, 2):
                                 mask_img='tpm_grey_30.nii',
                                 standardize=True,
                                 detrend=True,
+                                high_pass=0.009,
+                                low_pass=0.08,
+                                t_r=REPETITION_TIME,
                                 verbose=5,
                                 )
 
