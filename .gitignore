@@ -1,0 +1,9 @@
+# -*- mode:gitignore; -*-
+
+# emacs
+*~
+\#*\#
+.\#*
+
+# local config
+movrest_config.ini
