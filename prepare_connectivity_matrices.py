@@ -43,7 +43,7 @@ def get_epochs(time_series, t_type, events_table, n_vol, t_r):
 # some constants
 N_VOL_REST = 80  # how many resting volumes per epoch
 REPETITION_TIME = 1.1
-WORK_SUBDIR = 'nilearn_connectivity'
+WORK_SUBDIR = 'nilearn_connectivity_schaefer'
 
 # get input arguments
 parser = argparse.ArgumentParser()
@@ -59,9 +59,7 @@ SOURCE_DIR = config['DEFAULT']['SOURCE_DIR']
 WORK_DIR = config['DEFAULT']['WORK_DIR']
 
 # Fetch prepared ROIs
-atlas_filename = os.path.join(WORK_DIR, 'selected_HO_rois.nii')
-with open(os.path.join(WORK_DIR, 'selected_HO_rois.txt')) as labels_file:
-    labels = labels_file.readlines()
+atlas_filename = os.path.join(WORK_DIR, 'schaefer200.nii.gz')
 
 print('Atlas ROIs are located in nifti image at: %s' % atlas_filename)
 
@@ -106,6 +104,9 @@ for run_number in (1, 2):
     masker = NiftiLabelsMasker(labels_img=atlas_filename,
                                standardize=True,
                                detrend=True,
+                               high_pass=0.009,
+                               low_pass=0.08,
+                               t_r=REPETITION_TIME,
                                verbose=5,
                                )
     time_series = masker.fit_transform(fmri_filename,
