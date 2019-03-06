@@ -11,10 +11,9 @@ WORK_DIR = config['DEFAULT']['WORK_DIR']
 
 
 url = (
-    'https://github.com/ThomasYeoLab/CBIG/tree/master/stable_projects/'
-    '/brain_parcellation/Schaefer2018_LocalGlobal/Parcellations/MNI'
+    'https://github.com/ThomasYeoLab/CBIG/raw/master/stable_projects/'
+    'brain_parcellation/Schaefer2018_LocalGlobal/Parcellations/MNI/'
     'Schaefer2018_200Parcels_7Networks_order_FSLMNI152_2mm.nii.gz'
-    '?raw=true'
     )
 
 path = os.path.join(WORK_DIR, 'schaefer200.nii.gz')
