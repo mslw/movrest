@@ -5,7 +5,7 @@ import numpy as np
 import os
 import pandas
 
-from nilearn.input_data import NiftiSpheresMasker
+from nilearn.input_data import NiftiLabelsMasker
 from nilearn.connectome import ConnectivityMeasure
 
 from bids import BIDSLayout
@@ -43,7 +43,7 @@ def get_epochs(time_series, t_type, events_table, n_vol, t_r):
 # some constants
 N_VOL_REST = 80  # how many resting volumes per epoch
 REPETITION_TIME = 1.1
-WORK_SUBDIR = 'nilearn_connectivity_spheres_filter'
+WORK_SUBDIR = 'nilearn_connectivity'
 
 # get input arguments
 parser = argparse.ArgumentParser()
@@ -58,24 +58,12 @@ PREP_DIR = config['DEFAULT']['PREP_DIR']
 SOURCE_DIR = config['DEFAULT']['SOURCE_DIR']
 WORK_DIR = config['DEFAULT']['WORK_DIR']
 
-# List the seed coordinates
-seeds = [
-    (-2, 44, 2),  # ACC
-    (-32, 52, 16),  # Frontal Pole
-    (49, 47, 8),
-    (-42, 13, 0),  # Frontal Operculum / Insula
-    (41, 13, 4),
-    (-13, 13, -10),  # Accumbens
-    (12, 13, -9),
-    (0, -25, 35),  # PCC / Middle Cingulate
-    (-6, -71, 33),  # Precuneous Cortex
-    (-45, -64, 39),  # Lateral Occipital Cortex sup. div. / IPL
-    (47, -64, 39),
-    (-31, 38, -9),  # Frontal Pole / Orbitofrontal Cortex
-    (31, 39, -9),
-    (-23, -3, -19),  # Amygdala
-    (23, -3, -19)
-]
+# Fetch prepared ROIs
+atlas_filename = os.path.join(WORK_DIR, 'selected_HO_rois.nii')
+with open(os.path.join(WORK_DIR, 'selected_HO_rois.txt')) as labels_file:
+    labels = labels_file.readlines()
+
+print('Atlas ROIs are located in nifti image at: %s' % atlas_filename)
 
 # Locate the required files
 layout_prep = BIDSLayout(PREP_DIR)
@@ -115,17 +103,11 @@ for run_number in (1, 2):
     # Extract signals on a parcellation
     # this is time (~5 minutes) and memory (OMG) consuming
     rest_regressors = get_rest_regressors(confounds_filename)
-    masker = NiftiSpheresMasker(seeds=seeds,
-                                radius=6,
-                                mask_img='tpm_grey_30.nii',
-                                standardize=True,
-                                detrend=True,
-                                high_pass=0.009,
-                                low_pass=0.08,
-                                t_r=REPETITION_TIME,
-                                verbose=5,
-                                )
-
+    masker = NiftiLabelsMasker(labels_img=atlas_filename,
+                               standardize=True,
+                               detrend=True,
+                               verbose=5,
+                               )
     time_series = masker.fit_transform(fmri_filename,
                                        confounds=rest_regressors)
 
