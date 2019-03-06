@@ -4,3 +4,4 @@ nilearn==0.5.0
 scikit-learn==0.20.1
 pybids==0.6.5
 matplotlib==2.2.2
+requests==2.21.0
