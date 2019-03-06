@@ -5,5 +5,15 @@
 \#*\#
 .\#*
 
+# macOS
+.DS_Store
+
 # local config
 movrest_config.ini
+
+# python & jupyter
+__pycache__/
+.ipynb_checkpoints/
+
+# jupyter notebooks - currently they're only for trying things out
+*.ipynb
